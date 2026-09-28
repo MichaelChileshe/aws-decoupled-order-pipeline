@@ -1,0 +1,39 @@
+{
+  "TargetValue": 12,
+  "CustomizedMetricSpecification": {
+    "Metrics": [
+      {
+        "Id": "m1",
+        "Label": "Orders waiting in the fulfilment queue",
+        "MetricStat": {
+          "Metric": {
+            "Namespace": "AWS/SQS",
+            "MetricName": "ApproximateNumberOfMessagesVisible",
+            "Dimensions": [{ "Name": "QueueName", "Value": "ubuntu-fulfilment" }]
+          },
+          "Stat": "Sum"
+        },
+        "ReturnData": false
+      },
+      {
+        "Id": "m2",
+        "Label": "Workers in service",
+        "MetricStat": {
+          "Metric": {
+            "Namespace": "AWS/AutoScaling",
+            "MetricName": "GroupInServiceInstances",
+            "Dimensions": [{ "Name": "AutoScalingGroupName", "Value": "ubuntu-fulfilment-workers" }]
+          },
+          "Stat": "Average"
+        },
+        "ReturnData": false
+      },
+      {
+        "Id": "e1",
+        "Label": "Backlog per worker",
+        "Expression": "m1 / m2",
+        "ReturnData": true
+      }
+    ]
+  }
+}

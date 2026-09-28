@@ -1,6 +1,6 @@
 # Teardown
 
-Run from `~/p16` after `source ~/p16/env.sh`. There is no `Deny` statement anywhere in this project, so every delete works for the account administrator, in any retry order.
+Run from the repo folder after `source ./env.sh`. There is no `Deny` statement anywhere in this project, so every delete works for the account administrator, in any retry order.
 
 ```bash
 # 1. Workers first (they hold network interfaces in the subnets)

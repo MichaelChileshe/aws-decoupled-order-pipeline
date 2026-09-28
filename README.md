@@ -189,7 +189,7 @@ Buffering every order, isolating each consumer, and proving recovery with drills
 ```
 .
 ├── README.md
-├── env.sh.example                  # copy to ~/p16/env.sh; holds saved IDs + the save() helper
+├── env.sh.example                  # copy to env.sh (git-ignored); saved IDs + the save() helper
 ├── scripts/
 │   ├── kit_aws.py                  # shared helper: runs the AWS CLI and stops loudly on errors
 │   ├── create_queue.py             # queue + DLQ + redrive policy (standard or FIFO)
@@ -223,7 +223,7 @@ Buffering every order, isolating each consumer, and proving recovery with drills
     └── screenshots/                # 38 build, drill and teardown screenshots, in order
 ```
 
-> **No account IDs are committed.** Templates use `@@NAME@@` placeholders filled at run time from values saved in `~/p16/env.sh`. There is no `Deny` statement anywhere in the project, so nothing can lock an administrator out at teardown.
+> **No account IDs are committed.** Templates use `@@NAME@@` placeholders filled at run time from values saved in `env.sh`. There is no `Deny` statement anywhere in the project, so nothing can lock an administrator out at teardown.
 
 ---
 
@@ -231,7 +231,7 @@ Buffering every order, isolating each consumer, and proving recovery with drills
 
 Everything runs from WSL in `us-east-1`:
 
-1. `mkdir -p ~/p16 && cp -r scripts policies templates worker ~/p16/ && cp env.sh.example ~/p16/env.sh && cd ~/p16 && source env.sh`
+1. From the repo folder: `cp env.sh.example env.sh && source env.sh`
 2. `python3 scripts/create_queue.py ubuntu-fulfilment 30 FUL` (and the same for `ubuntu-email` / `EMAIL`, `ubuntu-analytics` / `ANALYTICS`), then `source env.sh`.
 3. Create the SNS topic, run `allow_sns.py` for each queue, subscribe each queue with `RawMessageDelivery=true`, and add the filter to fulfilment and email.
 4. `create_queue.py ubuntu-payments 30 PAY --fifo`; send the payment steps with `--message-group-id`.

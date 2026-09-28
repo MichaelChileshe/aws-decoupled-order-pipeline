@@ -1,6 +1,9 @@
 """Tiny wrapper so every kit script calls the AWS CLI the same way and fails loudly."""
 import json, os, subprocess, sys
 
+# The repo folder (where env.sh lives). env.sh exports WORKDIR; fall back to the parent of scripts/.
+ROOT = os.environ.get("WORKDIR") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 def aws(*args):
     """Run `aws <args> --output json` and return parsed JSON (or {} for empty output)."""
@@ -15,14 +18,14 @@ def env(name):
     """Read a saved value from the environment, with a clear message if it is missing."""
     val = os.environ.get(name, "")
     if not val:
-        sys.exit(f"\nMISSING: ${name} is not set. Run:  source ~/p16/env.sh\n")
+        sys.exit(f"\nMISSING: ${name} is not set. Run:  source ./env.sh  (from the repo folder)\n")
     return val
 
 
 def save(name, value):
     """Same as the save() shell function: export for this run + append to env.sh."""
     os.environ[name] = value
-    path = os.path.join(os.path.expanduser("~/p16"), "env.sh")
+    path = os.path.join(ROOT, "env.sh")
     with open(path, "a") as f:
         f.write(f'export {name}="{value}"\n')
     print(f"saved {name}={value}")

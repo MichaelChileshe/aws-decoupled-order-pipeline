@@ -6,7 +6,7 @@ Reads <PREFIX>_URL, <PREFIX>_ARN and TOPIC_ARN from the environment.
 The policy is Allow-only (no Deny), so it can never lock an administrator out.
 """
 import json, os, sys
-from kit_aws import aws, env
+from kit_aws import ROOT, aws, env
 
 prefix = sys.argv[1]
 url, arn, topic = env(f"{prefix}_URL"), env(f"{prefix}_ARN"), env("TOPIC_ARN")
@@ -24,8 +24,8 @@ policy = {
 }
 aws("sqs", "set-queue-attributes", "--queue-url", url, "--attributes", json.dumps({"Policy": json.dumps(policy)}))
 
-os.makedirs(os.path.expanduser("~/p16/build"), exist_ok=True)
-out = os.path.expanduser(f"~/p16/build/queue-policy-{prefix.lower()}.json")
+os.makedirs(os.path.join(ROOT, "build"), exist_ok=True)
+out = os.path.join(ROOT, "build", f"queue-policy-{prefix.lower()}.json")
 with open(out, "w") as f:
     json.dump(policy, f, indent=2)
 print(f"{prefix}: queue policy set (only {topic.split(':')[-1]} may send). Copy saved to {out}")

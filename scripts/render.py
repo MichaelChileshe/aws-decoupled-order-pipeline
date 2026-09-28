@@ -11,7 +11,7 @@ text = open(src).read()
 names = sorted(set(re.findall(r"@@([A-Z0-9_]+)@@", text)))
 missing = [n for n in names if not os.environ.get(n)]
 if missing:
-    sys.exit(f"\nMISSING values for: {', '.join(missing)}\nRun  source ~/p16/env.sh  (or the step that saves them) first.\n")
+    sys.exit(f"\nMISSING values for: {', '.join(missing)}\nRun  source ./env.sh  from the repo folder (or the step that saves them) first.\n")
 for n in names:
     text = text.replace(f"@@{n}@@", os.environ[n])
 os.makedirs(os.path.dirname(os.path.abspath(dst)), exist_ok=True)

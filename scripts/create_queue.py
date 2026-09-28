@@ -4,7 +4,7 @@
 Usage:  python3 scripts/create_queue.py <queue-name> <visibility-seconds> <PREFIX> [--fifo]
 Example: python3 scripts/create_queue.py ubuntu-fulfilment 30 FUL
 
-Saves four values to ~/p16/env.sh:  <PREFIX>_URL  <PREFIX>_ARN  <PREFIX>_DLQ_URL  <PREFIX>_DLQ_ARN
+Saves four values to env.sh:  <PREFIX>_URL  <PREFIX>_ARN  <PREFIX>_DLQ_URL  <PREFIX>_DLQ_ARN
 """
 import argparse, json
 from kit_aws import aws, save
